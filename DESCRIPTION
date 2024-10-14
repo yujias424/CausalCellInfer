@@ -1,0 +1,12 @@
+Package: CausalCellInfer
+Version: 1.0
+Date: 2024-10-12
+Title: Cell deconvolution with ICP cell markers 
+Description: This package is designed to identify the causal cell marker via the ICP approach for cell deconvolution.
+Author: Yin Liangying <yinliangying@gmail.com>,
+        Shi Yujia <yj.shi@outlook.com>,
+        So Hon-cheong <hcso85@gmail.com>
+Maintainer: Yin Liangying <yinliangying@gmail.com>,
+            Shi Yujia <yj.shi@outlook.com>
+Encoding: UTF-8
+RoxygenNote: 7.3.2
