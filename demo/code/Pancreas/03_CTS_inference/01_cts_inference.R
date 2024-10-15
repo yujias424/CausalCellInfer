@@ -5,14 +5,14 @@ library(scater)
 library(abind)
 
 # Load the Bulk data
-bulk <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/bulk/Pancreas/GSE50244_Genes_counts_TMM_NormLength_atLeastMAF5_expressed.txt.gz"))
+bulk <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_Genes_counts_TMM_NormLength_atLeastMAF5_expressed.txt.gz"))
 colnames(bulk) <- bulk[1, ]
 bulk <- bulk[-1, ]
 row.names(bulk) <- bulk$id
 bulk$id <- NULL
 colnames(bulk) <- paste0("Sample_", colnames(bulk))
 
-meta <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/bulk/Pancreas/GSE50244_meta.csv"))
+meta <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_meta.csv"))
 meta <- meta[!is.na(meta$Hba1c), ]
 meta_control <- meta[meta$Hba1c < 6, ]
 meta_control$T2D <- 0
@@ -22,7 +22,16 @@ meta <- rbind(meta_control, meta_case)
 meta$ID <- paste0("Sample_", meta$ID)
 
 bulk <- bulk[, meta$ID]
-bulk <- as.matrix(bulk)
+# bulk <- as.matrix(bulk)
+
+fwrite(bulk, "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz", row.names = T)
+
+# bulk <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz"))
+# colnames(bulk)[1] <- "gene"
+# row.names(bulk) <- bulk$gene
+# bulk$gene <- NULL
+# bulk <- as.matrix(bulk)
+# bulk[1:10, 1:10]
 
 # Load the Proportion results
 prop_res <- as.data.frame(fread("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/res/Pancreas/proportion/scaden_all.tsv"))
@@ -31,11 +40,24 @@ row.names(prop_res) <- prop_res$V1
 prop_res$V1 <- NULL
 
 # Load the scData
-scRNA <- zellkonverter::readH5AD("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/sc_dat/Pancreas/diabetes_training.h5ad", reader = "R") # 124583  21487
+scRNA <- zellkonverter::readH5AD("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/diabetes_training.h5ad", reader = "R") # 124583  21487
 assay(scRNA, "counts") <- assay(scRNA, "X")
 scRNA <- scRNA[, scRNA$disease_state == "Control"]
 scRNA_deconv <- scRNA[, scRNA$donor_id == "HPAP101"]
+zellkonverter::writeH5AD(scRNA_deconv, "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_training.h5ad", X_name = "counts")
 table(scRNA_deconv$CellType)
+
+# library(CausalCellInfer)
+# res <- infer_CTS_profile("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz",
+#                          "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_training.h5ad",
+#                          "/mnt/md0/yujia/project/github_package/demo/res/Pancreas/proportion/scaden_all.tsv",
+#                          alpha=0.5, beta=0.1, tao_k=0.01, max.iter=1000,
+#                          do_cpm = T, model_tracker = F, verbose = T,
+#                          model_name = "model_1", Normalize = F, preprocess = "none", pos = F)
+
+# bulk_dat <- "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz"
+# sc_dat <- "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_training.h5ad"
+# prop <- "/mnt/md0/yujia/project/github_package/demo/res/Pancreas/proportion/scaden_all.tsv"
 
 egm <- create_ENIGMA(bulk = bulk, ref = scRNA_deconv, ref_type = "single_cell")
 egm <- batch_correct(egm, varname_cell_type = "CellType", ncores = 40)
