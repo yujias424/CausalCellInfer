@@ -37,7 +37,8 @@ infer_CTS_profile <- function(bulk_dat, sc_dat, prop, ...){
     egm <- create_ENIGMA(bulk = bulk, ref = scRNA, ref_type = "single_cell")
     egm <- batch_correct(egm, varname_cell_type = "CellType", ncores = 40)
     prop_res <- prop_res[, colnames(egm@ref)]
-    egm@result_cell_proportion <- as.matrix(prop_res[colnames(bulk), ])
+    # egm@result_cell_proportion <- as.matrix(prop_res[colnames(bulk), ])
+    egm@result_cell_proportion <- as.matrix(prop_res)
 
     # ENIGMA inference
     egm <- ENIGMA_L2_max_norm(egm, ...)

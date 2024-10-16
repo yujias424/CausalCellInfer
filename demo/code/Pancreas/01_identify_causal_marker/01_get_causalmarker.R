@@ -4,11 +4,11 @@ library(stringr)
 library(zellkonverter)
 library(scater)
 
-source("/mnt/md0/yujia/project/github_package/CausalCellInfer/bin/cell_marker_identification/get_cellmarkers.R")
+# source("/mnt/md0/yujia/project/github_package/CausalCellInfer/bin/cell_marker_identification/get_cellmarkers.R")
 
 # Read the sc data
 # scRNA <- fread("/home/yinly/Cell_deconvolution/01_Cellmarker_identification/data/T1D_T2D.csv") # dim(scRNA): 222077  21487
-scRNA <- zellkonverter::readH5AD("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/sc_dat/Pancreas/T1D_T2D_public.h5ad", reader = "R") # 222077  21487
+scRNA <- zellkonverter::readH5AD("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/T1D_T2D_public.h5ad", reader = "R") # 222077  21487
 assay(scRNA, "counts") <- assay(scRNA,"X")
 
 # Log-Normalization
@@ -34,6 +34,8 @@ T2D_index <- which(scRNA$disease_state=="T2D")
 ctrl_index <- which(scRNA$disease_state=="Control")
 selected_index <- union(T2D_index,ctrl_index)
 scRNA_selected <- scRNA[, selected_index]
+
+writeH5AD(scRNA_selected, "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_marker_identify.h5ad", X_name = "counts")
 
 # classify the data into 2 different envirs based on diagnosis status
 female_index <- which(scRNA_selected$sex=="female")

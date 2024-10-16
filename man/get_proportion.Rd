@@ -9,9 +9,9 @@ get_proportion(sc_dat, bulk_dat, marker_genes, ...)
 \arguments{
 \item{sc_dat}{the reference single cell data.}
 
-\item{bulk_dat}{the bulk data to be deconvoluted.}
+\item{bulk_dat}{the bulk data to be deconvoluted (Gene at row and Sample at column)}
 
-\item{marker_genes}{marker genes for deconvolution.}
+\item{marker_genes}{marker genes for deconvolution (A csv file with a column named "gene")}
 
 \item{...}{arguments from the scaden deconvolution.}
 }
