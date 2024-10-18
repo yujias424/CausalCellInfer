@@ -8,3 +8,4 @@ analysis module in this package, including inferring the cell-type specific expr
 
 ### Usage
 
+Please refer to the vignettes.
