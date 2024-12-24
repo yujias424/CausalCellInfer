@@ -2,10 +2,10 @@ library(data.table)
 library(xgboost)
 library(stringr)
 
-source("/mnt/md0/yujia/project/github_package/CausalCellInfer/bin/cell_marker_identification/get_cellmarkers.R")
+source("/mnt/md0/yujia/project/github_package/CausalCellInfer/R/get_cellmarkers.R")
 
-scRNA <- fread("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/sc_dat/pbmc810k_normalizedX.csv.gz")
-cell_info <- fread("/mnt/md0/yujia/project/github_package/CausalCellInfer/demo/dat/sc_dat/pbmc810k_meta.csv")
+scRNA <- fread("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/PBMC/pbmc810k_normalizedX.csv.gz")
+cell_info <- fread("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/PBMC/pbmc810k_meta.csv")
 celltype <- cell_info$cell_type
 IID <-cell_info$IID
 

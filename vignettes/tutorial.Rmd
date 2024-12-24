@@ -7,7 +7,8 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-In this tutorial, we use the pancreas data to study the type 2 diabetes.
+In this tutorial, we use the pancreas data to study the type 2 diabetes. The whole analysis took around 10mins to run using our
+workstation (Threadripper 7960x, 256GB memory, RTX4070 ti super). 
 
 ### Infer the cell markers via the ICP appraoch
 
