@@ -23,13 +23,15 @@ Please refer to the vignettes.
 In brief, you need to install the following packages: 
 
 1. R packages:
+
     ENIGMA, abind, data.table, pcalg, reticulate, scater, WGCNA, coop, reticulate, stats, xgboost, zellkonverter
-2. Python packages
+2. Python packages:
+
     torch, numpy, pandas, matplotlib, seaborn, anndata, sklearn
 
 We strongly recommend you to install the pcalg we provided in the Github repository, as we have revise some of the functions provided in the orignal package.
 
-Additionally, we attached the output of sessionInfo() to show the exact version we used in our analysis.
+Additionally, we attached the output of sessionInfo() to show the exact version of the package we used in our analysis.
 
 ```
 > sessionInfo()
