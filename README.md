@@ -16,7 +16,7 @@ install_github("yujias424/CausalCellInfer")
 
 ### Usage
 
-Please refer to the vignettes.
+Please refer to the vignettes. All data required for vignettes has been uploaded to the onedrive, which can be access by following link: https://1drv.ms/f/c/60d1e294ce61ccdc/EoF_83k6p9tAvJYrm5BSIgYBd27wGIrUtfdNL4s-5mk8EA?e=ugjUeZ
 
 ### Required Package
 
