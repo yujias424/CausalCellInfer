@@ -5,6 +5,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from combat.pycombat import pycombat
+import qnorm
 
 #### NEEDED FILES
 # 1. GeneLength.txt
@@ -56,9 +58,9 @@ def counts2TPM(counts, genelen):
     return tpm
 
 
-def ProcessInputData(train_data, test_data, sep=None, datatype='TPM', variance_threshold=0.98,
+def ProcessInputData(train_data, test_data, sep=None, datatype='counts', variance_threshold=0.98,
                      scaler="mms", cut_variance = True,
-                     genelenfile=None, markergene = None):
+                     genelenfile=None, markergene = None, quan_norm = False):
     ### read train data
     print('Reading training data')
     if type(train_data) is anndata.AnnData:
@@ -123,6 +125,25 @@ def ProcessInputData(train_data, test_data, sep=None, datatype='TPM', variance_t
     samplename = test_x.index
 
     print('Intersected gene number is ', len(inter))
+    
+    # ============================
+    # Add quantile Normalization
+    # ============================
+    if quan_norm:
+        print('Running Quantile Normalization to correct for batch effect')
+        train_x_df = train_x.transpose()
+        test_x_df = test_x.transpose()
+
+        # train_x_df_length = len(train_x_df.columns)
+        # test_x_df_length = len(test_x_df.columns)
+
+        datasets = [train_x_df, test_x_df]
+        df_expression = pd.concat([train_x_df,test_x_df],join="inner",axis=1)
+
+        df_expression_qnorm = qnorm.quantile_normalize(df_expression, axis=1)
+        train_x = df_expression_qnorm.iloc[:, 0:len(datasets[0].columns)].transpose()
+        test_x = df_expression_qnorm.iloc[:, len(datasets[0].columns):len(df_expression_qnorm.columns)].transpose()
+        
     ### MinMax process
     print('Scaling...')
     train_x = np.log(train_x + 1)
@@ -131,6 +152,26 @@ def ProcessInputData(train_data, test_data, sep=None, datatype='TPM', variance_t
     else:
         test_x = test_x
 
+    # ======================
+    # # Add combat procedure
+    # ======================
+    # print('Running Combat to correct for batch effect')
+    # train_x_df = train_x.transpose()
+    # test_x_df = test_x.transpose()
+
+    # # we generate the list of batches
+    # batch = []
+    # datasets = [train_x_df, test_x_df]
+
+    # # we merge all the datasets into one, by keeping the common genes only
+    # df_expression = pd.concat([train_x_df,test_x_df],join="inner",axis=1)
+    # for j in range(len(datasets)):
+    #     batch.extend([j for _ in range(len(datasets[j].columns))])
+
+    # df_corrected = pycombat(df_expression, batch)
+    # train_x = df_corrected.iloc[:, 0:len(datasets[0].columns)].transpose()
+    # test_x = df_corrected.iloc[:, len(datasets[0].columns):len(df_corrected.columns)].transpose()
+    
     colors = sns.color_palette('RdYlBu', 10)
     fig = plt.figure()
     sns.histplot(data=np.mean(train_x, axis=0), kde=True, color=colors[3],edgecolor=None)

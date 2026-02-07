@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 from numpy.random import choice
+from scipy import sparse as sp
 
 def generate_simulated_data_scaden(sc_data, outname=None,
                                    d_prior=None,
@@ -62,7 +63,15 @@ def generate_simulated_data_scaden(sc_data, outname=None,
     for pid in patientid:
 
         sc_data_patient = sc_data[sc_data.obs[id_col] == pid]
-        sc_data_patient = pd.DataFrame(sc_data_patient.X.todense(), index=sc_data_patient.obs[cell_type], columns=sc_data_patient.var.index)
+
+        # print(sc_data_patient.X)
+        # print(isinstance(sc_data_patient.X, sp.csc_matrix))
+        if isinstance(sc_data_patient.X, sp.csc_matrix):
+            sc_data_patient = pd.DataFrame(sc_data_patient.X.todense(), index=sc_data_patient.obs[cell_type], columns=sc_data_patient.var.index) # sc_data_patient.X.todense()
+        else:
+            sc_data_patient = pd.DataFrame(sc_data_patient.X, index=sc_data_patient.obs[cell_type], columns=sc_data_patient.var.index) # sc_data_patient.X.todense()
+        # sc_data_patient = pd.DataFrame(sc_data_patient.X.todense(), index=sc_data_patient.obs[cell_type], columns=sc_data_patient.var.index)
+        
         sc_data_patient.dropna(inplace=True)
         sc_data_patient[cell_type] = sc_data_patient.index
         sc_data_patient.index = range(len(sc_data_patient))
