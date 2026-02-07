@@ -2,16 +2,16 @@
 #' 
 #' This code is to revise the original gcm.test from R package "GeneralisedCovarianceMeasure"
 #' 
-#' @param X
-#' @param Y
-#' @param Z
-#' @param alpha
-#' @param regr.method
-#' @param regr.pars
-#' @param plot.residuals
-#' @param nsim
-#' @param resid.XonZ
-#' @param resid.YonZ
+#' @param X A(nxp)-dimensional matrix (or data frame) with n observations of p variables.
+#' @param Y A(nxp)-dimensional matrix (or data frame) with n observations of p variables.
+#' @param Z A(nxp)-dimensional matrix (or data frame) with n observations of p variables.
+#' @param alpha Significance level of the test.
+#' @param regr.method A string indicating the regression method that is used. Currently implemented are "gam", "xgboost", "kernel.ridge". The regression is performed only if not both resid.XonZ and resid.YonZ are set to NULL.
+#' @param regr.pars Some regression methods require a list of additional options
+#' @param plot.residuals A Boolean indicating whether some plots should be shown.
+#' @param nsim An integer indicating the number of bootstrap samples used to approximate the null distribution of the test statistic.
+#' @param resid.XonZ It is possible to directly provide the residuals instead of performing a regression. If set to NULL, the regression method specified in regr.method is used.
+#' @param resid.YonZ It is possible to directly provide the residuals instead of performing a regression. If set to NULL, the regression method specified in regr.method is used.
 #' 
 #' @return a list containing P-value, R, test.statistic and whether reject
 #' 
