@@ -279,8 +279,8 @@ get_cellmarkers <- function(scRNA,celltypes_all,envir_binary,data_fir,label_fir,
                     }                 
             }
         }       
-        marker_gene_index <- causal_set_index[1]
-        markers <- causal_genes_final[1:marker_gene_index]
+        # marker_gene_index <- causal_set_index[1]
+        # markers <- causal_genes_final[1:marker_gene_index]
         # outputfile <- paste0("/mnt/home/yinly/projects/Cell_deconvolution/res/06_Benchmark/01_Cellmarker_identification/PBMC/6810KABC_Batch_PCSimple_ICP_New/6810KABC_cellmarkers_",celltype,".RData")
         # save(celltype,dtrain_fir_rank,dtrain_sec_rank,res_causal,res_causal_sec,res_causal_merged,IGCM_mat,causal_genes_final,causal_set_index,file=outputfile)
         cat("The identification of cellmarkers for",celltype ,"is completed!\n\n")
