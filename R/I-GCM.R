@@ -50,6 +50,9 @@ gcm_cov_detection <- function(R1, R2, N){
 #' @param verbose if verbose=TRUE, the details of the analysis will be print out. The default value is false
 #'
 #' @return res a list stored all related results, which includes candidate_features, resid_mat and all_candidate_causal_set; candidate_features: the preselected candidate causal variables from PC-simple ranked by zscore in descending order; resid_mat: the residual matrix with each column stores the residuals for all subjects in each performed test; all_candidate_causal_set: number of causal variables(The top ranked variables from candidate_features) for each identified 
+#'
+#' @import pcalg
+#' @importFrom coop pcor
 #' 
 #' @export
 InvariantGCM <- function(X_assoc, Y, envir, change_alpha=0.05,
