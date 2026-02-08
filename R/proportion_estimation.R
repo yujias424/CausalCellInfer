@@ -37,7 +37,7 @@ pd <- NULL
 get_proportion <- function(sc_dat, bulk_dat, marker_genes, sep, ...){
 
     # Read the bulk data
-    bulk_dat <- pd$read_csv(bulk_dat, index_col = "Unnamed: 0", sep=sep)$T # We expect gene at row and sample at column
+    bulk_dat <- pd$read_csv(bulk_dat, index_col = as.integer(0), sep=sep)$T # We expect gene at row and sample at column
     marker_genes <- read.csv(marker_genes)$gene # We expect a csv file with a specific gene column
 
     pred_Pancreas_common <- scaden_py$ScadenDeconvolution(sc_dat, bulk_dat, markergene = marker_genes, ...)

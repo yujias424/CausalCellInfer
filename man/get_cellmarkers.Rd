@@ -2,18 +2,51 @@
 % Please edit documentation in R/get_cellmarkers.R
 \name{get_cellmarkers}
 \alias{get_cellmarkers}
-\title{Get the cell markers for cell deconvolution using ICP approach}
+\title{Get cellmarkers using a combination of PC-simple and I-GCM}
 \usage{
-get_cellmarkers(label, data)
+get_cellmarkers(
+  scRNA,
+  celltypes_all,
+  envir_binary,
+  data_fir,
+  label_fir,
+  data_sec,
+  label_sec,
+  celltypes,
+  sample_num,
+  alpha = 0.05,
+  change_alpha = 0.05,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{label}{the corresponding cell type labels for the input data}
+\item{scRNA}{the scRNA-seq data including both environment}
 
-\item{data}{input normalized scRNA-seq data(count data would also be OK), numeric data type}
+\item{celltypes_all}{the corresponding cell type lable for scRNA}
+
+\item{envir_binary}{the binary environment variable}
+
+\item{data_fir}{scRNA-seq data from the 1st environment}
+
+\item{label_fir}{celltype labels corresponding to data_fir}
+
+\item{data_sec}{scRNA-seq data from the 2nd environment}
+
+\item{label_sec}{celltype labels corresponding to data_sec}
+
+\item{celltypes}{a vector contain all unique cell types}
+
+\item{sample_num}{overall sample size for scRNA-seq from both environments}
+
+\item{alpha}{the pvalue cutoff used to detect causal variables in PC-simple algorithm, the default value is 0.05}
+
+\item{change_alpha}{the pvalue cutoff used to detect GCM distance change significance, the default value is 0.05}
+
+\item{verbose}{indicates whether outputS the analysis details, either TRUE or FALSE}
 }
 \value{
-A list object containing all target cell types and their corresponding cell markers.
+res_list contains results list for each cell types. There are 6 variables in each sublist, i.e., celltype, res_causal,candidate_causal_genes,IGCM_mat,causal_set_index,causal_genes_ICP, which separately specify the celltype, candidate variable matrix with their corresponding zMin, candidate causal genes, the IGCM detection results matrix, causal variable set index(the last index of the variable),the identified causal genes using ICP
 }
 \description{
-The following code are used to identify environment specific cellmarkers.
+get_cellmarkers is designed to automatically identify cellmarkers using a combination of PC-simple and I-GCM
 }

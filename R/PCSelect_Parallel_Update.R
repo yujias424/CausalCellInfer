@@ -16,6 +16,7 @@
 #' @return A list object containing all target cell types and their corresponding cell markers.
 #'
 #' @import pcalg
+#' @importFrom parallel mclapply
 #' @importFrom coop pcor
 #' 
 #' @export

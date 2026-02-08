@@ -4,7 +4,7 @@
 \alias{get_proportion}
 \title{Obtain the proportion of the cell types of a target}
 \usage{
-get_proportion(sc_dat, bulk_dat, marker_genes, ...)
+get_proportion(sc_dat, bulk_dat, marker_genes, sep, ...)
 }
 \arguments{
 \item{sc_dat}{the reference single cell data.}

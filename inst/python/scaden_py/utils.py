@@ -5,7 +5,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from combat.pycombat import pycombat
+# from combat.pycombat import pycombat
 import qnorm
 
 #### NEEDED FILES

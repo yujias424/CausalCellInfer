@@ -1,12 +1,12 @@
 #' Re-rank genes based on zMin
-#' 
+#'
 #' merge_and_rank_genes is designed to re-rank genes based on zMin
-#' 
+#'
 #' @param df1 dataframe with three columns: genes, assoc and zMin to store the identifed caual genes from environment 1 
 #' @param df2 dataframe with three columns: genes, assoc and zMin to store the identifed caual genes from environment 2
-#' 
+#'
 #' @return final_df re-rank the merged df in descending order(zMin), with zMin indicates variable importance
-#' 
+#'
 #' @export 
 merge_and_rank_genes <- function(df1, df2) {
 
@@ -16,13 +16,6 @@ merge_and_rank_genes <- function(df1, df2) {
     # library(pcalg)
     # source("/mnt/home/yinly/projects/Cell_deconvolution/bin/src/I-GCM.R") # This will be packed into a R pacakge
     # source("/mnt/home/yinly/projects/Cell_deconvolution/bin/src/PCSelect_Parallel_Update.R")
-    #**************************************************************************************************************************
-    #' @ Description: merge_and_rank_genes is designed to re-rank genes based on zMin
-    #' @para df1: dataframe with three columns: genes, assoc and zMin to store the identifed caual genes from environment 1 
-    #' @para df2: dataframe with three columns: genes, assoc and zMin to store the identifed caual genes from environment 2
-    #' @return final_df: re-rank the merged df in descending order(zMin), with zMin indicates variable importance
-    #**************************************************************************************************************************
-    # Ranked genes by zMin
 
     # Ensure required columns exist
     required_cols <- c("genes", "assoc", "zMin")
@@ -48,11 +41,10 @@ merge_and_rank_genes <- function(df1, df2) {
     return(final_df)
 }
 
-
 #' Get cellmarkers using a combination of PC-simple and I-GCM
-#' 
+#'
 #' get_cellmarkers is designed to automatically identify cellmarkers using a combination of PC-simple and I-GCM
-#' 
+#'
 #' @param scRNA the scRNA-seq data including both environment
 #' @param celltypes_all the corresponding cell type lable for scRNA
 #' @param envir_binary the binary environment variable
@@ -65,37 +57,16 @@ merge_and_rank_genes <- function(df1, df2) {
 #' @param alpha the pvalue cutoff used to detect causal variables in PC-simple algorithm, the default value is 0.05
 #' @param change_alpha the pvalue cutoff used to detect GCM distance change significance, the default value is 0.05
 #' @param verbose indicates whether outputS the analysis details, either TRUE or FALSE
-#' 
+#'
 #' @return res_list contains results list for each cell types. There are 6 variables in each sublist, i.e., celltype, res_causal,candidate_causal_genes,IGCM_mat,causal_set_index,causal_genes_ICP, which separately specify the celltype, candidate variable matrix with their corresponding zMin, candidate causal genes, the IGCM detection results matrix, causal variable set index(the last index of the variable),the identified causal genes using ICP 
-#' 
-#' @import data.table,
+#'
+#' @import data.table
 #' @import xgboost
 #' @import GeneralisedCovarianceMeasure
 #' @import pcalg
-#' 
+#'
 #' @export 
-
 get_cellmarkers <- function(scRNA,celltypes_all,envir_binary,data_fir,label_fir,data_sec,label_sec,celltypes,sample_num,alpha=0.05,change_alpha=0.05,verbose=FALSE){
-
-    #*************************************************************************************************
-    #' @ Description: get_cellmarkers is designed to automatically identify cellmarkers using a 
-    # combination of PC-simple and I-GCM
-    #' @para scRNA: the scRNA-seq data including both environment
-    #' @para celltypes_all: the corresponding cell type lable for scRNA
-    #' @para envir_binary: the binary environment variable
-    #' @para data_fir: scRNA-seq data from the 1st environment
-    #' @para label_fir: celltype labels corresponding to data_fir
-    #' @para data_sec: scRNA-seq data from the 2nd environment
-    #' @para label_sec: celltype labels corresponding to data_sec
-    #' @para celltypes: a vector contain all unique cell types
-    #' @para sample_num: overall sample size for scRNA-seq from both environments
-    #' @para alpha: the pvalue cutoff used to detect causal variables in PC-simple algorithm, the default value is 0.05
-    #' @para change_alpha: the pvalue cutoff used to detect GCM distance change significance, the default value is 0.05
-    #' @para verbose: indicates whether outputS the analysis details, either TRUE or FALSE
-    #' @return res_list: contains results list for each cell types. There are 6 variables in each sublist, 
-    #' i.e., celltype, res_causal,candidate_causal_genes,IGCM_mat,causal_set_index,causal_genes_ICP, which separately specify
-    #' the celltype, candidate variable matrix with their corresponding zMin, candidate causal genes, the IGCM detection results matrix, causal variable set index(the last index of the variable),the identified causal genes using ICP 
-    #*************************************************************************************************
 
     res_list <- list()
     for(i in 1:length(celltypes)){
@@ -279,8 +250,8 @@ get_cellmarkers <- function(scRNA,celltypes_all,envir_binary,data_fir,label_fir,
                     }                 
             }
         }       
-        marker_gene_index <- causal_set_index[1]
-        markers <- causal_genes_final[1:marker_gene_index]
+        # marker_gene_index <- causal_set_index[1]
+        # markers <- causal_genes_final[1:marker_gene_index]
         # outputfile <- paste0("/mnt/home/yinly/projects/Cell_deconvolution/res/06_Benchmark/01_Cellmarker_identification/PBMC/6810KABC_Batch_PCSimple_ICP_New/6810KABC_cellmarkers_",celltype,".RData")
         # save(celltype,dtrain_fir_rank,dtrain_sec_rank,res_causal,res_causal_sec,res_causal_merged,IGCM_mat,causal_genes_final,causal_set_index,file=outputfile)
         cat("The identification of cellmarkers for",celltype ,"is completed!\n\n")

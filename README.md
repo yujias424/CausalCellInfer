@@ -27,7 +27,7 @@ In brief, you need to install the following packages:
     ENIGMA, abind, data.table, pcalg, reticulate, scater, WGCNA, coop, reticulate, stats, xgboost, zellkonverter
 2. Python packages:
 
-    torch, numpy, pandas, matplotlib, seaborn, anndata, sklearn
+    torch, numpy, pandas, matplotlib, seaborn, anndata, sklearn, qnorm, combat
 
 We strongly recommend you to install the pcalg we provided in the Github repository, as we have revise some of the functions provided in the orignal package.
 
