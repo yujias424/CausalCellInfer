@@ -37,56 +37,10 @@ pd <- NULL
 get_proportion <- function(sc_dat, bulk_dat, marker_genes, sep, ...){
 
     # Read the bulk data
-    bulk_dat <- pd$read_csv(bulk_dat, index_col = as.integer(0), sep=sep)$T # We expect gene at row and sample at column
+    bulk_dat <- pd$read_csv(bulk_dat, index_col = as.integer(0), sep=sep)$T # We expect gene at row and sample at column, noticed that we need as.integer here, otherwise the reticulate will treat it as 0.0
     marker_genes <- read.csv(marker_genes)$gene # We expect a csv file with a specific gene column
 
     pred_Pancreas_common <- scaden_py$ScadenDeconvolution(sc_dat, bulk_dat, markergene = marker_genes, ...)
 
     pred_Pancreas_common
 } 
-
-
-# get_proportion <- function(sc_dat, bulk_dat, marker_genes){
-
-#     # Read the bulk data
-#     bulk_dat <- pandas$read_csv(bulk_dat, index_col = "Unnamed: 0", sep="\t")$T
-
-#     pred_Pancreas_common <- scaden_py$ScadenDeconvolution(sc_dat, bulk_dat,
-#                                                           generate_sim_method = "tape", add_noise = FALSE, cut_variance= TRUE, cell_type = "CellType",
-#                                                           markergene = marker_genes)
-
-#     pred_Pancreas_common
-# }
-
-
-# bulk_dat <- "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz"
-# use_condaenv("~/miniconda3/envs/causalcellinfer")
-# pandas <- import("pandas", as = "pandas")
-# bulk_dat_aa <- pandas$read_csv(bulk_dat,   sep=",") # index_col = "Unnamed: 0",
-# marker_genes <- read.csv("/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/common_genes.csv")$gene
-
-# get_proportion("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_training.h5ad", "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz", "/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/common_genes.csv",
-#                 generate_sim_method = "tape", add_noise = FALSE, cut_variance= TRUE, cell_type = "CellType")
-
-# library(reticulate)
-# library(CausalCellInfer)
-# use_condaenv("~/miniconda3/envs/causalcellinfer")
-# pandas <- import("pandas", as = "pandas")
-# scaden_py <- import_from_path("scaden_py", path = "/mnt/md0/yujia/project/github_package/CausalCellInfer/inst/python/")
-
-# # bulk_dat <- pandas$read_csv("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_example.txt.gz", sep = "\t", index_col = "Unnamed: 0")$T
-# bulk_dat <- pandas$read_csv("/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt.gz", sep = ",", index_col = "Unnamed: 0")$T
-# common_genes <- read.csv("/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/common_genes.csv")$gene
-
-# pred_Pancreas_common <- scaden_py$ScadenDeconvolution("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_training.h5ad", bulk_dat,
-#                                            generate_sim_method = "tape", add_noise = FALSE, cut_variance= TRUE, cell_type = "CellType",
-#                                            markergene = common_genes)
-
-# library(CausalCellInfer)
-# reticulate::use_condaenv("~/miniconda3/envs/causalcellinfer")
-
-# marker_genes <- read.csv("/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/common_genes.csv")$gene
-# res <- get_proportion(sc_dat = "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/diabetes_training.h5ad",
-#                       bulk_dat = "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_example.txt.gz",
-#                       marker_genes = marker_genes,
-#                       generate_sim_method = "tape", add_noise = FALSE, cut_variance= TRUE, cell_type = "CellType")

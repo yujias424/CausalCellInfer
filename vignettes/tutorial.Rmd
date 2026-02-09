@@ -21,8 +21,6 @@ library(stringr)
 library(zellkonverter)
 library(scater)
 library(CausalCellInfer)
-# library(parallel)
-# library(GeneralisedCovarianceMeasure)
 
 sc_dat <- readH5AD("/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/pancreas_marker_identify.h5ad", reader = "R")
 
@@ -68,36 +66,6 @@ for (i in celltypes){
 
 cellmarkers_ICP.df <- data.frame("gene" = causal_ICP_genes)
 fwrite(cellmarkers_ICP.df, "/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/ICP_genes.csv")
-
-# # Run the get_cellmarkers to find the marker under the specific environment.
-# data_1 <- get_cellmarkers(label_fir, data_fir)
-# data_2 <- get_cellmarkers(label_sec, data_sec)
-
-# cellmarkers_common <- list()
-# cellmarkers_all <- list()
-
-# for (i in names(data_1[[2]])){
-
-#     cellmakers_fir <- as.data.frame(data_1[[2]][i][[1]])[, 1]
-#     cellmakers_sec <- as.data.frame(data_2[[2]][i][[1]])[, 1]
-#     celltype_common <- intersect(cellmakers_fir,cellmakers_sec)
-#     celltype_all <- union(cellmakers_fir,cellmakers_sec)
-#     cellmarkers_common[[i]] <- celltype_common
-#     cellmarkers_all[[i]] <- celltype_all
-#     # break
-# }
-
-# cellmarkers_all <- unique(unlist(cellmarkers_all))
-# cellmarkers_all.df <- data.frame("gene" = cellmarkers_all)
-# dim(cellmarkers_all.df)
-
-# cellmarkers_common <- unique(unlist(cellmarkers_common))
-# cellmarkers_common.df <- data.frame("gene" = cellmarkers_common)
-# dim(cellmarkers_common.df)
-
-# fwrite(cellmarkers_all.df, "/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/all_genes.csv")
-# fwrite(cellmarkers_common.df, "/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/common_genes.csv")
-
 ```
 
 ### Estimating the cell composition using the deep learning deconvolution framework.
@@ -112,7 +80,7 @@ library(reticulate)
 proportion_estimated <- get_proportion(sc_dat = "/mnt/md0/yujia/project/github_package/demo/dat/sc_dat/Pancreas/diabetes_training.h5ad",
                                        bulk_dat = "/mnt/md0/yujia/project/github_package/demo/dat/bulk/Pancreas/GSE50244_bulk.txt",
                                        marker_genes = "/mnt/md0/yujia/project/github_package/demo/dat/marker_genes/Pancreas/ICP_genes.csv",
-                                       generate_sim_method = "scaden", add_noise = FALSE, cut_variance= FALSE, cell_type = "CellType", id_col = "donor_id", sep = ",")
+                                       generate_sim_method = "tape", add_noise = FALSE, cut_variance= FALSE, cell_type = "CellType", id_col = "donor_id", sep = ",")
 
 proportion_estimated$to_csv("/mnt/md0/yujia/project/github_package/demo/res/Pancreas/proportion/scaden_ICP.csv")
 ```
